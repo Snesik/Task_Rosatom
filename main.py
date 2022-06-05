@@ -1,4 +1,6 @@
 import uvicorn
+import boto3
+from botocore.client import Config
 from fastapi import UploadFile, FastAPI
 
 app = FastAPI()
