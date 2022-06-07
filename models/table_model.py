@@ -1,11 +1,12 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import String, Column, DateTime, Integer, create_engine
 from datetime import datetime
-
-Base = declarative_base()
+from sqlalchemy.orm import Session
 
 engine = create_engine("postgresql://admin:01233210aA@192.168.0.204:5432/inbox")
 
+Base = declarative_base()
+session = Session(bind=engine)
 
 
 class Items(Base):

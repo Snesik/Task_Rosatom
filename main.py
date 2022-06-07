@@ -1,14 +1,13 @@
 import uvicorn
 import uuid
 import io
-from fastapi import UploadFile, FastAPI, File
 from typing import List
-from sqlalchemy.orm import Session
-from models.table_model import engine, Items
+from fastapi import UploadFile, FastAPI, File
+
+from models.table_model import session, Items
 from utils import client, creat_bucket
 
 app = FastAPI()
-session = Session(bind=engine)
 
 
 @app.post("/flames/")
@@ -36,8 +35,9 @@ async def upload(files: List[UploadFile] = File(...)):
 
 @app.get("/flames/{number}/")
 async def get(number: int):
-    a = session.query(Items.name, Items.created_on).filter(Items.id == number).one()
-    return {a[1], a[0]}
+    result = session.query(Items.name, Items.created_on).filter(Items.id == number).one()
+    return {result[1], result[0]}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=6000)
